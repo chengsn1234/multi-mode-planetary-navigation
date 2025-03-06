@@ -32,13 +32,42 @@
   <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="icon" href="./static/images/favicon.svg">
+  <link rel="icon" href="./static/images/hit.jpg">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script defer src="./static/js/fontawesome.all.min.js"></script>
   <script src="./static/js/bulma-carousel.min.js"></script>
   <script src="./static/js/bulma-slider.min.js"></script>
   <script src="./static/js/index.js"></script>
+
+  <style>
+    /* 表格样式 */
+    table {
+        width: 80%;
+        border-collapse: collapse;
+        margin: auto;
+    }
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: center !important;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    .bold{
+        font-weight: bold;
+    }
+
+
+
+
+
+
+
+</style>
+
+
 </head>
 <body>
 
@@ -102,13 +131,13 @@
             <span class="author-block">
               Wenhao Feng<sup>1</sup>,</span>
             <span class="author-block">
-              Huaiguang Yang<sup>1</sup>,</span>l
+              Huaiguang Yang<sup>1</sup>,</span>
             <span class="author-block">
               Haibo Gao<sup>1</sup>,</span>
             <span class="author-block">
               Zongquan Deng<sup>1</sup>,</span>
             <span class="author-block">
-              *Liang Ding<sup>1</sup>,</span>
+              *Liang Ding<sup>1</sup></span>
           </div>
           <!-- <div class="is-size-5 publication-authors">
             <span class="author-block">
@@ -255,6 +284,7 @@
 
 
 <section class="section">
+  <!-- System Content. -->
   <div class="container is-max-desktop">
 
     <!-- System Description. -->
@@ -263,32 +293,81 @@
         <h2 class="title is-3">System Description</h2>
         <div class="content has-text-justified">
           <p>
-            The increasingly complex and diverse planetary exploration environment requires more
-            adaptable and flexible rover navigation strategy.
+            The local navigation system utilizes a VLM terrain classifier and three navigation methods
+            tailored to different terrains: flat, rocky, and challenging. Terrain complexity is determined
+            from RGB images by analyzing slope and rock distribution. Three distinct navigation strategies
+            are designed and adopted, and a closed-loop navigation system is established that dynamically
+            adapts to different terrains.
           </p>
 
         </div>
       </div>
     </div>
-    <!--/ Abstract. -->
+    <!--/ System Description. -->
 
-        <!-- Framework Picture. -->
-        <div class="columns is-centered has-text-centered">
-          <div class="column is-four-fifths">
-            <!-- <h2 class="title is-3"></h2> -->
-            <h2 class="title is-4"></h2>
-            <div class="publication-image">
+    <!-- Framework Picture. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+          <!-- <h2 class="title is-3"></h2> -->
+          <h2 class="title is-4"></h2>
+          <div class="publication-image">
               <!-- Insert Image Here -->
               <img src="./static/images/fig_1.png" alt="Multi-mode Planetary Navigation Framework." 
                   style="max-width: 100%; height: auto; display: block; margin: 0 auto; border: none;">
-            </div>
           </div>
-        </div>
-        <!--/ Framework Picture. -->
       </div>
     </div>
-    <!--/ System Content. -->
+    <!--/ Framework Picture. -->
+
+    <!-- Navigation Modes-->
+    <div class="columns is-centered">
+      
+        <!-- 第一列: Efficient Mode -->
+        <div class="column">
+          <div class="content">
+            <h2 class="title is-4">Efficient Mode</h2>
+            <p class="fixed-height">
+              For flat terrain, we introduce efficient mode, which eliminates onboard perception and complex
+              planning, generating a smooth path for efficiency.
+            </p>
+            <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/mode_efficient.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+
+        <!-- 第二列: Safe Mode -->
+        <div class="column">
+          <div class="content">
+            <h2 class="title is-4">Safe Mode</h2>
+            <p class="fixed-height">
+              For rocky terrain, safe mode performs rock detection to construct a local obstacle map for
+              real-time, and plans a path through obstacles with a lower speed.
+            </p>
+            <video id="matting-video" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/mode_safe.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+
+        <!-- 第三列: Conservative Mode -->
+        <div class="column">
+          <div class="content">
+            <h2 class="title is-4">Conservative Mode</h2>
+            <p class="fixed-height">
+              For challenging terrain, we utilize elevation mapping to generate a 2.5D costmap. A* planning
+              combined with the costmap and a conservative speed, ensures safe traversal.
+            </p>
+            <video id="matting-video" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/mode_conservative.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+      <!--/ Navigation Modes. -->
+    
   </div>
+  <!--/ System Content. -->
   
 </section>
 
@@ -298,98 +377,228 @@
     
     <h1 class="title is-3 has-text-centered">Results</h1>
 
-        <!-- Interpolating. -->
-        <h3 class="title is-4">Interpolating states</h3>
-        <div class="content has-text-justified">
-          <p>
-            We can also animate the scene by interpolating the deformation latent codes of two input
-            frames. Use the slider here to linearly interpolate between the left frame and the right
-            frame.
-          </p>
-        </div>
-        <div class="columns is-vcentered interpolation-panel">
-          <div class="column is-3 has-text-centered">
-            <img src="./static/images/interpolate_start.jpg"
-                 class="interpolation-image"
-                 alt="Interpolate start reference image."/>
-            <p>Start Frame</p>
-          </div>
-          <div class="column interpolation-video-column">
-            <div id="interpolation-image-wrapper">
-              Loading...
-            </div>
-            <input class="slider is-fullwidth is-large is-info"
-                   id="interpolation-slider"
-                   step="1" min="0" max="100" value="0" type="range">
-          </div>
-          <div class="column is-3 has-text-centered">
-            <img src="./static/images/interpolate_end.jpg"
-                 class="interpolation-image"
-                 alt="Interpolation end reference image."/>
-            <p class="is-bold">End Frame</p>
-          </div>
-        </div>
-        <br/>
-        <!--/ Interpolating. -->
+      <!-- Terrain Classification. -->
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-4">Terrain Classification</h2>
+          <div class="content has-text-justified">
+            <p>
+              The classification results show that the VLM approach has better performance in moderate and
+              complex terrain than geometric method, especially in ambiguous scenarios.
+            </p>
 
-        <!-- Re-rendering. -->
-        <h3 class="title is-4">Re-rendering the input video</h3>
-        <div class="content has-text-justified">
-          <p>
-            Using <span class="dnerf">Nerfies</span>, you can re-render a video from a novel
-            viewpoint such as a stabilized camera by playing back the training deformations.
-          </p>
-        </div>
-        <div class="content has-text-centered">
-          <video id="replay-video"
-                 controls
-                 muted
-                 preload
-                 playsinline
-                 width="75%">
-            <source src="./static/videos/replay.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <!--/ Re-rendering. -->
-
-
-    <div class="columns is-centered">
-      <!-- Visual Effects. -->
-      <div class="column">
-        <div class="content">
-          <h2 class="title is-4">Visual Effects</h2>
-          <p>
-            Using <i>nerfies</i> you can create fun visual effects. This Dolly zoom effect
-            would be impossible without nerfies since it would require going through a wall.
-          </p>
-          <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/dollyzoom-stacked.mp4"
-                    type="video/mp4">
-          </video>
+          </div>
         </div>
       </div>
-      <!--/ Visual Effects. -->
+      <!--/ Terrain Classification. -->
 
-      <!-- Matting. -->
-      <div class="column">
-        <h2 class="title is-4">Matting</h2>
-        <div class="columns is-centered">
-          <div class="column content">
-            <p>
-              As a byproduct of our method, we can also solve the matting problem by ignoring
-              samples that fall outside of a bounding box during rendering.
-            </p>
-            <video id="matting-video" controls playsinline height="100%">
-              <source src="./static/videos/matting.mp4"
-                      type="video/mp4">
-            </video>
-          </div>
+      <!-- Terrain Complexity Table. -->
+      <table>
+        <tr>
+            <th rowspan="2">Terrain Type</th>
+            <th colspan="3">Geometry-based Method</th>
+            <th colspan="2">VLM Method</th>
+            <th colspan="2">Avg. Accuracy</th>
+        </tr>
+        <tr>
+            <th>Avg. Rock Grid Num.</th>
+            <th>Avg. Slope Value</th>
+            <th>Avg. Slope Variance</th>
+            <th>Avg. Rock Complexity</th>
+            <th>Avg. Slope Complexity</th>
+            <th>Geometry</th>
+            <th>VLM</th>
+        </tr>
+        <tr>
+            <td>Flat</td>
+            <td>0</td>
+            <td>2.6815</td>
+            <td>4.67</td>
+            <td>0.045</td>
+            <td>0.095</td>
+            <td>100%</td>
+            <td>100%</td>
+        </tr>
+        <tr>
+            <td>Rocky</td>
+            <td>404.65</td>
+            <td>5.5095</td>
+            <td>141.3865</td>
+            <td>0.59</td>
+            <td>0.2</td>
+            <td>90%</td>
+            <td class="bold">95%</td>
+        </tr>
+        <tr>
+            <td>Challenging</td>
+            <td>444.35</td>
+            <td>30.118</td>
+            <td>273.3555</td>
+            <td>0.435</td>
+            <td>0.695</td>
+            <td>85%</td>
+            <td class="bold">100%</td>
+        </tr>
+    </table>
+    <!--/ Terrain Complexity Table. -->
+
+    <!-- Terrain Complexity Picture. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+            <!-- <h2 class="title is-3"></h2> -->
+            <h2 class="title is-4"></h2>
+            <div class="publication-image">
+                <!-- Insert Image Here -->
+                <img src="./static/images/fig_4.png" alt="Classification Scenes." 
+                    style="max-width: 100%; height: auto; display: block; margin: 0 auto; border: none;">
+            </div>
+      </div>
+    </div>
+    <!--/ Terrain Complexity Picture. -->
+
+
+
+    <!-- Single-mode Traverse. -->
+    <div class="columns is-centered ">
+      <div class="column is-four-fifths">
+        <h2 class="title is-4">Single-mode Traversal</h2>
+        <div class="content has-text-justified">
+          <p>
+            The efficient mode minimizes travel time in obstacle-free areas but fails in complex environments
+            due to a lack of obstacle detection. The safe mode avoids obstacles effectively but misinterprets
+            terrain features as hazards in challenging landscapes. The conservative mode, though less efficient,
+            ensures successful navigation across all terrains.
+          </p>
 
         </div>
       </div>
     </div>
-    <!--/ Matting. -->
+    <!--/ Single-mode Traverse. -->
+
+    <!-- Single-mode Picture. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+          <!-- <h2 class="title is-3"></h2> -->
+          <h2 class="title is-4"></h2>
+          <div class="publication-image">
+              <!-- Insert Image Here -->
+              <img src="./static/images/fig_5.png" alt="Multi-mode Planetary Navigation Framework." 
+                  style="max-width: 100%; height: auto; display: block; margin: 0 auto; border: none;">
+          </div>
+      </div>
+    </div>
+    <!--/ Single-mode Picture. -->
+
+    <!-- Single Mode Videos-->
+    <div class="columns is-centered">
+      
+      <!-- 第一列: Efficient Mode Collision -->
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-5">Efficient Mode Failure</h2>
+          <!-- <p class="fixed-height">
+            For flat terrain, we introduce efficient mode, which eliminates onboard perception and complex
+            planning, generating a smooth path for efficiency.
+          </p> -->
+          <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/failure_efficient.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+
+      <!-- 第二列: Safe Mode Failure-->
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-5">Safe Mode Failure</h2>
+          <!-- <p class="fixed-height">
+            For rocky terrain, safe mode performs rock detection to construct a local obstacle map for
+            real-time, and plans a path through obstacles with a lower speed.
+          </p> -->
+          <video id="matting-video" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/failure_safe.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+
+      <!-- 第三列: Conservative Mode -->
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-5">Conservative Mode</h2>
+          <!-- <p class="fixed-height">
+            For challenging terrain, we utilize elevation mapping to generate a 2.5D costmap. A* planning
+            combined with the costmap and a conservative speed, ensures safe traversal.
+          </p> -->
+          <video id="matting-video" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/conservative_mode.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+    <!--/ Single Mode Videos. -->
+
+
+    <!-- Multi-mode Traverse. -->
+    <div class="columns is-centered ">
+      <div class="column is-four-fifths">
+        <h2 class="title is-4">Multi-mode Traversal</h2>
+        <div class="content has-text-justified">
+          <p>
+            In complex environments, the multi-mode system dynamically adapts to terrain complexity by switching
+            to corresponding mode, reducing traversal time to 55.7% compared to single-mode conservative navigation,
+            improving efficiency without compromising safety.
+          </p>
+
+        </div>
+      </div>
+    </div>
+    <!--/ Multi-mode Traverse. -->
+
+    <div class="columns is-flex" style="align-items: stretch;">
+      <!-- 表格 -->
+      <div class="column is-flex" style="flex-direction: column; justify-content: stretch;">
+        <table style="flex-grow: 1; height: 100%;">
+          <tr>
+            <th rowspan="2"></th>
+            <th colspan="1">Single-mode</th>
+            <th colspan="4">Multi-mode</th>
+          </tr>
+          <tr>
+            <th>Total</th>
+            <th>Total</th>
+            <th>Efficient</th>
+            <th>Safe</th>
+            <th>Conservative</th>
+          </tr>
+          <tr>
+            <th>Time</th>
+            <td>1081.7</td>
+            <td>602.6</td>
+            <td>144.9</td>
+            <td>158.6</td>
+            <td>299.1</td>
+          </tr>
+          <tr>
+            <th>Distance</th>
+            <td>413.7</td>
+            <td>411.8</td>
+            <td>215.1</td>
+            <td>94.7</td>
+            <td>102</td>
+          </tr>
+        </table>
+      </div>
+    
+      <!-- 图片 -->
+      <div class="column has-text-centered is-flex" style="flex-grow: 2.0;  flex-direction: column; justify-content: stretch;">
+        <h2 class="title is-4"></h2>
+        <div class="publication-image" style="flex-grow: 1; display: flex; align-items: center; justify-content: center;">
+          <img src="./static/images/fig_6.png" alt="Multi-mode." 
+               style="max-width: 100%; max-height: 100%; height: auto;display: block; margin: 0 auto; border: none;">
+        </div>
+      </div>
+    </div>
+    
+
 
 
 
@@ -440,11 +649,11 @@
 <footer class="footer">
   <div class="container">
     <div class="content has-text-centered">
-      <a class="icon-link"
+      <!-- <a class="icon-link"
          href="./static/videos/nerfies_paper.pdf">
         <i class="fas fa-file-pdf"></i>
-      </a>
-      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+      </a> -->
+      <a class="icon-link" href="https://github.com/chengsn1234" class="external-link" disabled>
         <i class="fab fa-github"></i>
       </a>
     </div>

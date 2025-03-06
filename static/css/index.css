@@ -155,3 +155,10 @@ body {
 #interpolation-image-wrapper img {
   border-radius: 5px;
 }
+
+/* 设置所有<p>标签的最小高度，以确保它们占用相同的行数 */
+.fixed-height {
+  min-height: 10em; /* 根据实际情况调整这个值 */
+  display: block;
+  align-items: center; /* 垂直居中文本 */
+}
